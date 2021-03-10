@@ -26,7 +26,7 @@ export class Provider {
     this.host = host
     this.connected = true
     this.vmContext = new VMContext()
-    
+
     this.Accounts = new Accounts(this.vmContext)
     this.Transactions = new Transactions(this.vmContext)
 
@@ -104,7 +104,7 @@ export function extend (web3) {
       call: 'eth_getExecutionResultFromSimulator',
       inputFormatter: [null],
       params: 1
-    }))    
+    }))
   }
 
   if (!(web3.eth && web3.eth.getHashFromTagBySimulator)) {
@@ -113,9 +113,9 @@ export function extend (web3) {
       call: 'eth_getHashFromTagBySimulator',
       inputFormatter: [null],
       params: 1
-    }))    
+    }))
   }
-  
+
   if (methods.length > 0) {
     web3.extend({
       property: 'eth',
@@ -124,4 +124,3 @@ export function extend (web3) {
     })
   }
 }
-

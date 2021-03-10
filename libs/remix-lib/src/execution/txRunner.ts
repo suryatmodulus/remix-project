@@ -16,9 +16,9 @@ export class TxRunner {
     this.opt = opt || {}
     this.internalRunner = internalRunner
     this.event = new EventManager()
-       
+
     this.runAsync = this.opt.runAsync || true // We have to run like this cause the VM Event Manager does not support running multiple txs at the same time.
-    
+
     this.pendingTxs = {}
     this.queusTxs = []
   }
@@ -27,13 +27,12 @@ export class TxRunner {
     run(this, args, args.timestamp || Date.now(), confirmationCb, gasEstimationForceSend, promptCb, cb)
   }
 
-
   execute (args, confirmationCb, gasEstimationForceSend, promptCb, callback) {
     let data = args.data
     if (data.slice(0, 2) !== '0x') {
       data = '0x' + data
     }
-    this.internalRunner.execute(args, confirmationCb, gasEstimationForceSend, promptCb, callback)   
+    this.internalRunner.execute(args, confirmationCb, gasEstimationForceSend, promptCb, callback)
   }
 }
 
