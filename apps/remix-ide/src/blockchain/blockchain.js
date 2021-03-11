@@ -482,7 +482,7 @@ class Blockchain {
       }
 
       let address = null
-       if (txResult && txResult.receipt) {
+      if (txResult && txResult.receipt) {
         address = txResult.receipt.contractAddress
       }
 
