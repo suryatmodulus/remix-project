@@ -1,17 +1,17 @@
 /* global ethereum */
 'use strict'
 import Web3 from 'web3'
-import { EventManager } from '../eventManager'
+import EventManager from '../lib/events'
 import { rlp, keccak, bufferToHex } from 'ethereumjs-util'
-import { Web3VmProvider } from '../web3Provider/web3VmProvider'
+const remixLib = require('@remix-project/remix-lib')
+const { Web3VMProvider } = remixLib.vm
 const EthJSVM = require('ethereumjs-vm').default
 const StateManager = require('ethereumjs-vm/dist/state/stateManager').default
 
-declare let ethereum: any
 let web3
 
-if (typeof window !== 'undefined' && typeof window['ethereum'] !== 'undefined') {
-  var injectedProvider = window['ethereum']
+if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
+  var injectedProvider = window.ethereum
   web3 = new Web3(injectedProvider)
 } else {
   web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
@@ -75,20 +75,6 @@ class StateManagerCommonStorageDump extends StateManager {
   trigger contextChanged, web3EndpointChanged
 */
 export class ExecutionContext {
-  event
-  blockGasLimitDefault: number
-  blockGasLimit: number
-  customNetWorks
-  blocks
-  latestBlockNumber
-  txs
-  executionContext: string
-  listenOnLastBlockId
-  currentFork: string
-  vms
-  mainNetGenesisHash: string
-  customWeb3: { [key: string]: Web3 }
-
   constructor () {
     this.event = new EventManager()
     this.executionContext = null
@@ -131,7 +117,7 @@ export class ExecutionContext {
       hardfork: hardfork
     })
     vm.blockchain.validate = false
-    const web3vm = new Web3VmProvider()
+    const web3vm = new Web3VMProvider()
     web3vm.setVM(vm)
     return { vm, web3vm, stateManager }
   }
@@ -149,7 +135,7 @@ export class ExecutionContext {
     return this.executionContext === 'vm'
   }
 
-  setWeb3 (context: string, web3: Web3) {
+  setWeb3 (context, web3) {
     this.customWeb3[context] = web3
   }
 
